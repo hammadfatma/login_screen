@@ -1,61 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/modules/auth/login_screen.dart';
 
 void main() {
   runApp(
-    MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Login Page"),
-        ),
-        body: Container(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Username",
-                          hintText: "Enter your username",
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Password",
-                          hintText: "Enter your password",
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.red, // foreground
-                        ),
-                        onPressed: () {
-                          print("Successfully, login");
-                        },
-                        child: Text("Login"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
-    ),
+    const MyApp(),
   );
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // locale: DevicePreview.locale(context),
+      // builder: DevicePreview.appBuilder,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: const Color(0xffFFFFFF),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const LoginScreen(),
+    );
+  }
+}
