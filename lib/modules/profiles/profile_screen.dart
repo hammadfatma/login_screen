@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:loginscreen/modules/auth/register_screen.dart';
-import 'package:loginscreen/modules/profiles/profile_screen.dart';
 import 'package:loginscreen/shared/components/components.dart';
 import 'package:loginscreen/shared/styles/styles.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   var formKey = GlobalKey<FormState>();
 
   var nameController = TextEditingController();
 
-  var passController = TextEditingController();
+  var emailController = TextEditingController();
+
+  var genderController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 25,
             ),
             Text(
-              'Log in to your account',
+              'FirstName LastName',
               textAlign: TextAlign.center,
               style: AppStyles.styleBold14.copyWith(fontSize: 20),
             ),
@@ -56,10 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       defaultFormField(
                         controller: nameController,
                         type: TextInputType.name,
-                        suffix: Icons.cancel_outlined,
-                        suffixPressed: () {
-                          nameController.clear();
-                        },
                         validate: (value) {
                           if (value!.isEmpty) {
                             return 'please enter your user name';
@@ -71,20 +67,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 22.0,
                       ),
                       const Text(
-                        'Password',
+                        'Email',
                         style: AppStyles.styleRegular14,
                       ),
                       const SizedBox(
                         height: 8.0,
                       ),
                       defaultFormField(
-                        controller: passController,
-                        type: TextInputType.visiblePassword,
-                        suffix: Icons.visibility_off_outlined,
-                        suffixPressed: () {},
+                        controller: emailController,
+                        type: TextInputType.emailAddress,
                         validate: (value) {
                           if (value!.isEmpty) {
-                            return 'password is too short';
+                            return 'please enter your email address';
                           }
                           return null;
                         },
@@ -92,27 +86,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 22.0,
                       ),
-                      rememberPart(onTap: () {}, lastPart: 'Forgot password?'),
+                      const Text(
+                        'Gender',
+                        style: AppStyles.styleRegular14,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      defaultFormField(
+                        controller: genderController,
+                        type: TextInputType.text,
+                        validate: (value) {
+                          if (value!.isEmpty) {
+                            return 'please enter your gender';
+                          }
+                          return null;
+                        },
+                      ),
                       const SizedBox(
                         height: 22.0,
                       ),
                       defaultButton(
-                          function: () {
-                            navigateAndFinish(context, const ProfileScreen());
-                          },
-                          text: 'Log in'),
-                      const SizedBox(
-                        height: 22.0,
-                      ),
-                      checkAccount(
-                        onTap: () {
-                          navigateAndFinish(
-                            context,
-                            const RegisterScreen(),
-                          );
-                        },
-                        firstPart: 'Don’t have an account?',
-                        lastPart: 'Register',
+                        function: () {},
+                        text: 'Log out',
+                        background: const Color(0xffDC3545),
                       ),
                     ],
                   ),
