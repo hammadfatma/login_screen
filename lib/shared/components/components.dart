@@ -162,7 +162,7 @@ Widget checkAccount(
           width: 6.0,
         ),
         InkWell(
-          onTap: () {},
+          onTap: onTap,
           child: Text(
             lastPart!,
             textAlign: TextAlign.center,
@@ -182,4 +182,15 @@ Widget buildIndicator() => Container(
         borderRadius: BorderRadius.circular(2.5),
         color: const Color(0xff344054).withOpacity(0.85),
       ),
+    );
+void navigateAndFinish(
+  context,
+  widget,
+) =>
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+      (route) => false,
     );

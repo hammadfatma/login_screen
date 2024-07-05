@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:loginscreen/modules/auth/register_screen.dart';
+import 'package:loginscreen/modules/auth/login_screen.dart';
 import 'package:loginscreen/shared/components/components.dart';
 import 'package:loginscreen/shared/styles/styles.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   var formKey = GlobalKey<FormState>();
 
   var nameController = TextEditingController();
+
+  var emailController = TextEditingController();
 
   var passController = TextEditingController();
   @override
@@ -28,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 25,
             ),
             Text(
-              'Log in to your account',
+              'Create new account',
               textAlign: TextAlign.center,
               style: AppStyles.styleBold14.copyWith(fontSize: 20),
             ),
@@ -70,6 +72,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 22.0,
                       ),
                       const Text(
+                        'Email',
+                        style: AppStyles.styleRegular14,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      defaultFormField(
+                        controller: emailController,
+                        type: TextInputType.emailAddress,
+                        suffix: Icons.cancel_outlined,
+                        suffixPressed: () {
+                          emailController.clear();
+                        },
+                        validate: (value) {
+                          if (value!.isEmpty) {
+                            return 'please enter your email address';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 22.0,
+                      ),
+                      const Text(
                         'Password',
                         style: AppStyles.styleRegular14,
                       ),
@@ -91,27 +117,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 22.0,
                       ),
-                      rememberPart(onTap: () {}, lastPart: 'Forgot password?'),
+                      rememberPart(onTap: () {}, lastPart: 'Have a problem?'),
                       const SizedBox(
                         height: 22.0,
                       ),
-                      defaultButton(
-                          function: () {
-                            navigateAndFinish(context, const LoginScreen());
-                          },
-                          text: 'Log in'),
+                      defaultButton(function: () {}, text: 'Register'),
                       const SizedBox(
                         height: 22.0,
                       ),
                       checkAccount(
                         onTap: () {
-                          navigateAndFinish(
-                            context,
-                            const RegisterScreen(),
-                          );
+                          navigateAndFinish(context, const LoginScreen());
                         },
-                        firstPart: 'Don’t have an account?',
-                        lastPart: 'Register',
+                        firstPart: 'Already have an account?',
+                        lastPart: 'Log in',
                       ),
                     ],
                   ),
