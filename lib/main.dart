@@ -1,9 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loginscreen/modules/auth/login_screen.dart';
+import 'package:loginscreen/shared/cubit/auth_cubit.dart';
+import 'package:loginscreen/shared/network/local/cache_helper.dart';
+import 'package:loginscreen/shared/network/remote/dio_helper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   runApp(
-    const MyApp(),
+    BlocProvider(
+      create: (context) => AuthCubit(DioHelper(Dio())),
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -15,8 +25,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // locale: DevicePreview.locale(context),
-      // builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'Inter',

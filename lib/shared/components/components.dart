@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loginscreen/shared/styles/styles.dart';
 
 Widget backgroundPart({required bool isProfileImage, String? profileImage}) =>
@@ -88,22 +89,27 @@ Widget defaultFormField({
         ),
       ),
     );
-Widget rememberPart({required void Function()? onTap, String? lastPart}) => Row(
+Widget rememberPart(
+        {required void Function()? onTap,
+        String? lastPart,
+        IconData? check,
+        BuildContext? context}) =>
+    Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
           onTap: onTap,
-          child: const Row(
+          child: Row(
             children: [
               Icon(
-                Icons.check_box_outline_blank_outlined,
+                check,
                 size: 16,
-                color: Color(0xff808194),
+                color: const Color(0xff808194),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8.0,
               ),
-              Text(
+              const Text(
                 'Remember me',
                 style: AppStyles.styleBold14,
               ),
@@ -175,22 +181,42 @@ Widget checkAccount(
         ),
       ],
     );
-Widget buildIndicator() => Container(
-      width: 134.0,
-      height: 5.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(2.5),
-        color: const Color(0xff344054).withOpacity(0.85),
-      ),
+void navigateAndFinish(BuildContext context, Widget widget) {
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => widget),
+    (Route<dynamic> route) => false,
+  );
+}
+
+void showToast({
+  required String text,
+  required ToastStates state,
+}) =>
+    Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 5,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
-void navigateAndFinish(
-  context,
-  widget,
-) =>
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => widget,
-      ),
-      (route) => false,
-    );
+
+enum ToastStates { success, error, warning }
+
+Color chooseToastColor(ToastStates state) {
+  Color color;
+  switch (state) {
+    case ToastStates.success:
+      color = Colors.green;
+      break;
+    case ToastStates.error:
+      color = Colors.red;
+      break;
+    case ToastStates.warning:
+      color = Colors.amber;
+      break;
+  }
+  return color;
+}

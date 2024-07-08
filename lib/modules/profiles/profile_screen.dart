@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loginscreen/models/login_model.dart';
 import 'package:loginscreen/shared/components/components.dart';
+import 'package:loginscreen/shared/cubit/auth_cubit.dart';
 import 'package:loginscreen/shared/styles/styles.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,32 +21,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var genderController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final LoginModel model = AuthCubit.get(context).loginModel;
+    nameController.text = model.username ?? 'no name';
+    emailController.text = model.email ?? 'no email';
+    genderController.text = model.gender ?? 'no gender';
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          children: [
-            backgroundPart(isProfileImage: false),
-            const SizedBox(
-              height: 25,
-            ),
-            Text(
-              'FirstName LastName',
-              textAlign: TextAlign.center,
-              style: AppStyles.styleBold14.copyWith(fontSize: 20),
-            ),
-            const SizedBox(
-              height: 22,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Form(
-                key: formKey,
-                child: SizedBox(
-                  height: 366,
-                  child: ListView(
-                    padding: EdgeInsetsDirectional.zero,
-                    clipBehavior: Clip.none,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              backgroundPart(isProfileImage: true, profileImage: model.image),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                '${model.firstName} ${model.lastName}',
+                textAlign: TextAlign.center,
+                style: AppStyles.styleBold14.copyWith(fontSize: 20),
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         'Username',
@@ -54,6 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 8.0,
                       ),
                       defaultFormField(
+                        isClickable: false,
                         controller: nameController,
                         type: TextInputType.name,
                         validate: (value) {
@@ -74,6 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 8.0,
                       ),
                       defaultFormField(
+                        isClickable: false,
                         controller: emailController,
                         type: TextInputType.emailAddress,
                         validate: (value) {
@@ -94,6 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 8.0,
                       ),
                       defaultFormField(
+                        isClickable: false,
                         controller: genderController,
                         type: TextInputType.text,
                         validate: (value) {
@@ -107,7 +114,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 22.0,
                       ),
                       defaultButton(
-                        function: () {},
+                        function: () {
+                          AuthCubit.get(context).signOut(context);
+                        },
                         text: 'Log out',
                         background: const Color(0xffDC3545),
                       ),
@@ -115,13 +124,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-            ),
-            const Spacer(),
-            buildIndicator(),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );
